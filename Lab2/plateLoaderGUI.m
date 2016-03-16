@@ -96,6 +96,12 @@ function pushbutton_resetDelays_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.resetDefaultTimes;
 set(handles.text_response,'String',status);
+handles.timeDelays = [0 60 20 30 0;
+                      0 0 30 30 0;
+                      0 30 0 30 0;
+                      0 30 30 0 0;
+                      0 30 20 60 0];
+set(handles.uitable1,'Data',handles.timeDelays(:,2:4));
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_setDelay.
@@ -331,7 +337,7 @@ function uitable1_CellEditCallback(hObject, eventdata, handles)
 %	NewData: EditData or its converted form set on the Data property. Empty if Data was not changed
 %	Error: error string when failed to convert EditData to appropriate value for Data
 % handles    structure with handles and user data (see GUIDATA)
-timeDelayChanges = get(hObject, 'data')
+timeDelayChanges = get(hObject, 'Data')
 for i= 1:5
     handles.timeDelays(i,2:4) = timeDelayChanges(i,:);
 end
