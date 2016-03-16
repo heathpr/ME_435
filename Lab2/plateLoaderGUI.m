@@ -57,6 +57,7 @@ clc
 
 handles.output = hObject;
 handles.robot=PlateLoaderSim(1);
+addImageToAxis('robot_background.jpg',handles.axes_background,700);
 % Update handles structure
 guidata(hObject, handles);
 
@@ -80,7 +81,8 @@ function pushbutton_reset_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_reset (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.reset;
+status=handles.robot.reset;
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_resetDelays.
@@ -88,7 +90,8 @@ function pushbutton_resetDelays_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_resetDelays (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.resetDefaultTimes;
+status=handles.robot.resetDefaultTimes;
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_setDelay.
@@ -151,7 +154,8 @@ function pushbutton_movePlate_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 from=(get(handles.popupmenu_from,'Value'));
 to=(get(handles.popupmenu_to,'Value'));
-handles.robot.movePlate(from,to);
+status=handles.robot.movePlate(from,to);
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x1.
@@ -159,7 +163,8 @@ function pushbutton_x1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_x1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.x(1);
+status=handles.robot.x(1);
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x2.
@@ -167,7 +172,8 @@ function pushbutton_x2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_x2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.x(2);
+status=handles.robot.x(2);
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton10_x5.
@@ -175,7 +181,8 @@ function pushbutton10_x5_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton10_x5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.x(5);
+status=handles.robot.x(5);
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x4.
@@ -183,7 +190,8 @@ function pushbutton_x4_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_x4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.x(4);
+status=handles.robot.x(4);
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton12_x3.
@@ -191,7 +199,8 @@ function pushbutton12_x3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton12_x3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.x(3);
+status=handles.robot.x(3);
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_getStatus.
@@ -209,7 +218,8 @@ function pushbutton_disconnect_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(handles.checkbox_simulator,'Value')==0
-    handles.robot.shutdown;
+    status=handles.robot.shutdown;
+    set(handles.text_response,'String',status);
 end
 guidata(hObject, handles);
 
@@ -220,6 +230,8 @@ function pushbutton_connect_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if get(handles.checkbox_simulator,'Value')==0
     handles.robot=PlateLoader(str2double(get(handles.edit_comPort,'String')));
+    status=handles.robot.getStatus;
+    set(handles.text_response,'String',status);
 end
 
 guidata(hObject, handles);
@@ -258,8 +270,11 @@ function checkbox_simulator_Callback(hObject, eventdata, handles)
 if get(hObject,'Value')==1
     handles.robot.shutdown;
     handles.robot=PlateLoaderSim(1);
+    status=handles.robot.getStatus;
+    set(handles.text_response,'String',status);
 else
-    handles.robot.shutdown;
+    status=handles.robot.shutdown;
+    set(handles.text_response,'String',status);
 end
 guidata(hObject, handles);
 
@@ -268,7 +283,8 @@ function pushbutton_retract_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_retract (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.retract;
+status=handles.robot.retract;
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_extend.
@@ -276,7 +292,8 @@ function pushbutton_extend_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_extend (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.extend;
+status=handles.robot.extend;
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_open.
@@ -284,7 +301,8 @@ function pushbutton_open_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_open (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.open;
+status=handles.robot.open;
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_close.
@@ -292,5 +310,6 @@ function pushbutton_close_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_close (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.robot.close;
+status=handles.robot.close;
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
