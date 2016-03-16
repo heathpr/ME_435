@@ -62,6 +62,7 @@ handles.timeDelays = [0 60 20 30 0;
 handles.output = hObject;
 handles.robot=PlateLoaderSim(1);
 addImageToAxis('robot_background.jpg',handles.axes_background,700);
+updateImages(handles);
 % Update handles structure
 guidata(hObject, handles);
 
@@ -337,11 +338,10 @@ function uitable1_CellEditCallback(hObject, eventdata, handles)
 %	NewData: EditData or its converted form set on the Data property. Empty if Data was not changed
 %	Error: error string when failed to convert EditData to appropriate value for Data
 % handles    structure with handles and user data (see GUIDATA)
-timeDelayChanges = get(hObject, 'Data')
+timeDelayChanges = get(hObject, 'Data');
 for i= 1:5
     handles.timeDelays(i,2:4) = timeDelayChanges(i,:);
 end
-handles.timeDelays
 guidata(hObject, handles);
 
 

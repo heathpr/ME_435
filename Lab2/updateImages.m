@@ -6,28 +6,86 @@ function   updateImages( handles )
 %% gets current state of the robot
 [x, z, gripper, plate]=handles.robot.getProperties;
 
-%% coordinates the image moves to 
-x1=[1,1];
-x2=[1,1];
-x3=[1,1];
-x4=[1,1];
-x5=[1,1];
+%% coordinates the image moves to
+xu1=[315,476];
+xu2=[434,476];
+xu3=[547,476];
+xu4=[665,476];
+xu5=[785,476];
 
-z1=[1,1];
-z2=[1,1];
-z3=[1,1];
-z4=[1,1];
-z5=[1,1];
+xd1=[315,357];
+xd2=[434,357];
+xd3=[547,357];
+xd4=[665,357];
+xd5=[785,357];
+
+z1=[370,439];
+z2=[485,439];
+z3=[599,439];
+z4=[720,439];
+z5=[835,439];
 
 %% move Z-axis
 if z==1 % gripper extended
-   addImageToAxis('extended_bars.jpg',handles.axes_zAxis,0)
-   set(handles.axes_zAxis,'Visible',1);
+    addImageToAxis('extended_bars.jpg',handles.axes_zAxis,0)
+    set(handles.axes_zAxis,'Visible','on');
 else % gripper retracted
-    set(handles.axes_zAxis,'Visible',0);
+    set(handles.axes_zAxis,'Visible','off');
 end
 
 
-%% 
+%% determine gripper image
+if gripper==1 % gripper closed
+    if plate==1 % plate present
+        addImageToAxis('gripper_with_plate.jpg',handles.axes_gripper,160);
+    else % no plate present
+        addImageToAxis('gripper_closed_no_plate.jpg',handles.axes_gripper,160);
+    end
+else % open
+    addImageToAxis('gripper_open_no_plate.jpg',handles.axes_gripper,160);
+    
+end
+
+%% determine locations
+get(handles.axes_zAxis,'x')
+[Xz, Yz, Wz, Hz]=get(handles.axes_zAxis,'Position');
+[Xx, Yx, Wx, Hx]=get(handles.axes_gripper,'Position');
+switch x
+    case 1
+        set(handles.axes_zAxis,'Position',[z1(1) z1(2) Wz Hz]);
+        if z==1
+            set(handles.axes_gripper,'Position',[xd1(1) xd1(2) Wx Hx]);
+        else
+            set(handles.axes_gripper,'Position',[xu1(1) xu1(2) Wx Hx]);
+        end
+    case 2
+        set(handles.axes_zAxis,'Position',[z2(1) z2(2) Wz Hz]);
+        if z==1
+            set(handles.axes_gripper,'Position',[xd2(1) xd2(2) Wx Hx]);
+        else
+            set(handles.axes_gripper,'Position',[xu2(1) xu2(2) Wx Hx]);
+        end
+    case 3
+        set(handles.axes_zAxis,'Position',[z3(1) z3(2) Wz Hz]);
+        if z==1
+            set(handles.axes_gripper,'Position',[xd3(1) xd3(2) Wx Hx]);
+        else
+            set(handles.axes_gripper,'Position',[xu3(1) xu3(2) Wx Hx]);
+        end
+    case 4
+        set(handles.axes_zAxis,'Position',[z4(1) z4(2) Wz Hz]);
+        if z==1
+            set(handles.axes_gripper,'Position',[xd4(1) xd4(2) Wx Hx]);
+        else
+            set(handles.axes_gripper,'Position',[xu4(1) xu4(2) Wx Hx]);
+        end
+    case 5
+        set(handles.axes_zAxis,'Position',[z5(1) z5(2) Wz Hz]);
+        if z==1
+            set(handles.axes_gripper,'Position',[xd5(1) xd5(2) Wx Hx]);
+        else
+            set(handles.axes_gripper,'Position',[xu5(1) xu5(2) Wx Hx]);
+        end
+end
 end
 
