@@ -54,12 +54,11 @@ function plateLoaderGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for plateLoaderGUI
 clc
-timeDelays = [0 60 20 30 0;
-              0 0 30 30 0;
-              0 30 0 30 0;
-              0 30 30 0 0;
-              0 30 20 60 0];
-set(handles.timeDelays,'Value',timeDelays);
+handles.timeDelays = [0 60 20 30 0;
+                      0 0 30 30 0;
+                      0 30 0 30 0;
+                      0 30 30 0 0;
+                      0 30 20 60 0];
 handles.output = hObject;
 handles.robot=PlateLoaderSim(1);
 addImageToAxis('robot_background.jpg',handles.axes_background,700);
@@ -104,7 +103,7 @@ function pushbutton_setDelay_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_setDelay (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-status = handles.setTimeValues(timeDelays);
+status = handles.setTimeValues(handles.timeDelays);
 set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
@@ -332,3 +331,8 @@ function uitable1_CellEditCallback(hObject, eventdata, handles)
 %	NewData: EditData or its converted form set on the Data property. Empty if Data was not changed
 %	Error: error string when failed to convert EditData to appropriate value for Data
 % handles    structure with handles and user data (see GUIDATA)
+timeDelayChanges = get(hObject, 'data');
+for i= 1:5
+    handles.timeDelays(i,2:4) = timeDelayChanges(i,:);
+end
+
