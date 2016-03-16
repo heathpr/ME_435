@@ -42,6 +42,37 @@ classdef PlateLoader < hgsetget
             %   Maybe use the GRIPPER_STATUS command and ready string reply
             obj.isPlatePresent = false;
         end
+        function response = leap45(obj)
+            uiwait(helpdlg('Please place plates ar locations 4 and 5'));
+            obj.x(5)
+            obj.open;
+            obj.extend;
+            obj.close;
+            obj.retract
+            obj.x(3);
+            obj.extend
+            obj.open;
+            obj.retract
+            obj.x(4);
+            obj.extend
+            obj.close
+            obj.retract
+            obj.x(2);
+            obj.extend
+            obj.open;
+            obj.retract
+            obj.x(3);
+            obj.extend
+            obj.close
+            obj.retract
+            obj.x(1);
+            obj.extend
+            obj.open;
+            obj.retract
+            obj.reset;
+            response=obj.getStatus;
+            
+        end
         function response = reset(obj)
             % Reset robot
             fprintf(obj.serialRobot,'RESET');

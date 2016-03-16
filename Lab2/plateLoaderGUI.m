@@ -22,7 +22,7 @@ function varargout = plateLoaderGUI(varargin)
 
 % Edit the above text to modify the response to help plateLoaderGUI
 
-% Last Modified by GUIDE v2.5 16-Mar-2016 12:44:24
+% Last Modified by GUIDE v2.5 16-Mar-2016 14:50:37
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -361,3 +361,14 @@ end
 guidata(hObject, handles);
 
 
+
+
+% --- Executes on button press in pushbutton_leap.
+function pushbutton_leap_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton_leap (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+status=handles.robot.leap45;
+set(handles.text_response,'String',status);
+updateImages(handles);
+guidata(hObject, handles);
