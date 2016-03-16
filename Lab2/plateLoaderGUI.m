@@ -22,7 +22,7 @@ function varargout = plateLoaderGUI(varargin)
 
 % Edit the above text to modify the response to help plateLoaderGUI
 
-% Last Modified by GUIDE v2.5 15-Mar-2016 14:16:11
+% Last Modified by GUIDE v2.5 16-Mar-2016 12:44:24
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,7 +54,12 @@ function plateLoaderGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for plateLoaderGUI
 clc
-
+timeDelays = [0 60 20 30 0;
+              0 0 30 30 0;
+              0 30 0 30 0;
+              0 30 30 0 0;
+              0 30 20 60 0];
+set(handles.timeDelays,'Value',timeDelays);
 handles.output = hObject;
 handles.robot=PlateLoaderSim(1);
 addImageToAxis('robot_background.jpg',handles.axes_background,700);
@@ -99,6 +104,8 @@ function pushbutton_setDelay_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_setDelay (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+status = handles.setTimeValues(timeDelays);
+set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
 % --- Executes on selection change in popupmenu_from.
@@ -313,3 +320,15 @@ function pushbutton_close_Callback(hObject, eventdata, handles)
 status=handles.robot.close;
 set(handles.text_response,'String',status);
 guidata(hObject, handles);
+
+
+% --- Executes when entered data in editable cell(s) in uitable1.
+function uitable1_CellEditCallback(hObject, eventdata, handles)
+% hObject    handle to uitable1 (see GCBO)
+% eventdata  structure with the following fields (see UITABLE)
+%	Indices: row and column indices of the cell(s) edited
+%	PreviousData: previous data for the cell(s) edited
+%	EditData: string(s) entered by the user
+%	NewData: EditData or its converted form set on the Data property. Empty if Data was not changed
+%	Error: error string when failed to convert EditData to appropriate value for Data
+% handles    structure with handles and user data (see GUIDATA)
