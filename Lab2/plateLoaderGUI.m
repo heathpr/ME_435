@@ -103,7 +103,7 @@ function pushbutton_setDelay_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_setDelay (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-status = handles.setTimeValues(handles.timeDelays);
+status = handles.robot.setTimeValues(handles.timeDelays);
 set(handles.text_response,'String',status);
 guidata(hObject, handles);
 
@@ -331,8 +331,11 @@ function uitable1_CellEditCallback(hObject, eventdata, handles)
 %	NewData: EditData or its converted form set on the Data property. Empty if Data was not changed
 %	Error: error string when failed to convert EditData to appropriate value for Data
 % handles    structure with handles and user data (see GUIDATA)
-timeDelayChanges = get(hObject, 'data');
+timeDelayChanges = get(hObject, 'data')
 for i= 1:5
     handles.timeDelays(i,2:4) = timeDelayChanges(i,:);
 end
+handles.timeDelays
+guidata(hObject, handles);
+
 
