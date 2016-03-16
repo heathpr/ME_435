@@ -27,11 +27,11 @@ function varargout = plateLoaderGUI(varargin)
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @plateLoaderGUI_OpeningFcn, ...
-                   'gui_OutputFcn',  @plateLoaderGUI_OutputFcn, ...
-                   'gui_LayoutFcn',  [] , ...
-                   'gui_Callback',   []);
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @plateLoaderGUI_OpeningFcn, ...
+    'gui_OutputFcn',  @plateLoaderGUI_OutputFcn, ...
+    'gui_LayoutFcn',  [] , ...
+    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
@@ -55,10 +55,10 @@ function plateLoaderGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for plateLoaderGUI
 clc
 handles.timeDelays = [0 60 20 30 0;
-                      0 0 30 30 0;
-                      0 30 0 30 0;
-                      0 30 30 0 0;
-                      0 30 20 60 0];
+    0 0 30 30 0;
+    0 30 0 30 0;
+    0 30 30 0 0;
+    0 30 20 60 0];
 handles.output = hObject;
 handles.robot=PlateLoaderSim(1);
 addImageToAxis('robot_background.jpg',handles.axes_background,700);
@@ -71,7 +71,7 @@ guidata(hObject, handles);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = plateLoaderGUI_OutputFcn(hObject, eventdata, handles) 
+function varargout = plateLoaderGUI_OutputFcn(hObject, eventdata, handles)
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -88,6 +88,7 @@ function pushbutton_reset_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.reset;
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_resetDelays.
@@ -98,11 +99,12 @@ function pushbutton_resetDelays_Callback(hObject, eventdata, handles)
 status=handles.robot.resetDefaultTimes;
 set(handles.text_response,'String',status);
 handles.timeDelays = [0 60 20 30 0;
-                      0 0 30 30 0;
-                      0 30 0 30 0;
-                      0 30 30 0 0;
-                      0 30 20 60 0];
+    0 0 30 30 0;
+    0 30 0 30 0;
+    0 30 30 0 0;
+    0 30 20 60 0];
 set(handles.uitable1,'Data',handles.timeDelays(:,2:4));
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_setDelay.
@@ -112,6 +114,7 @@ function pushbutton_setDelay_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status = handles.robot.setTimeValues(handles.timeDelays);
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on selection change in popupmenu_from.
@@ -169,6 +172,7 @@ from=(get(handles.popupmenu_from,'Value'));
 to=(get(handles.popupmenu_to,'Value'));
 status=handles.robot.movePlate(from,to);
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x1.
@@ -178,6 +182,7 @@ function pushbutton_x1_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.x(1);
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x2.
@@ -187,6 +192,7 @@ function pushbutton_x2_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.x(2);
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton10_x5.
@@ -196,6 +202,7 @@ function pushbutton10_x5_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.x(5);
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x4.
@@ -205,6 +212,7 @@ function pushbutton_x4_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.x(4);
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton12_x3.
@@ -214,6 +222,7 @@ function pushbutton12_x3_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.x(3);
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_getStatus.
@@ -223,6 +232,7 @@ function pushbutton_getStatus_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.getStatus;
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_disconnect.
@@ -245,6 +255,7 @@ if get(handles.checkbox_simulator,'Value')==0
     handles.robot=PlateLoader(str2double(get(handles.edit_comPort,'String')));
     status=handles.robot.getStatus;
     set(handles.text_response,'String',status);
+    updateImages(handles);
 end
 
 guidata(hObject, handles);
@@ -285,6 +296,7 @@ if get(hObject,'Value')==1
     handles.robot=PlateLoaderSim(1);
     status=handles.robot.getStatus;
     set(handles.text_response,'String',status);
+    updateImages(handles);
 else
     status=handles.robot.shutdown;
     set(handles.text_response,'String',status);
@@ -298,6 +310,7 @@ function pushbutton_retract_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.retract;
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_extend.
@@ -307,6 +320,7 @@ function pushbutton_extend_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.extend;
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_open.
@@ -316,6 +330,7 @@ function pushbutton_open_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.open;
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_close.
@@ -325,6 +340,7 @@ function pushbutton_close_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 status=handles.robot.close;
 set(handles.text_response,'String',status);
+updateImages(handles);
 guidata(hObject, handles);
 
 
