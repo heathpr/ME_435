@@ -74,6 +74,8 @@ set(handles.text_gripperMax,'String',get(handles.slider_gripper,'Max'))
 
 % set bacground colors
 
+% set display
+jointSliderChange(handles);
 
 % Update handles structure
 guidata(hObject, handles);
@@ -160,6 +162,8 @@ function slider_1_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+jointSliderChange(handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -172,7 +176,7 @@ function slider_1_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
-set(handles.text_slide1Max,'String',get(hObject,'Max'))
+
 
 % --- Executes on slider movement.
 function slider_2_Callback(hObject, eventdata, handles)
@@ -182,6 +186,8 @@ function slider_2_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+jointSliderChange(handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -204,6 +210,8 @@ function slider_3_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+jointSliderChange(handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -226,6 +234,8 @@ function slider_4_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+jointSliderChange(handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -248,6 +258,7 @@ function slider_5_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+jointSliderChange(handles);
 
 
 % --- Executes during object creation, after setting all properties.
@@ -263,7 +274,7 @@ end
 
 
 % update slider text
-function jointSlioerChange(hObject,handles)
+function jointSliderChange(handles)
 
 jointAngles(1)=round(get(handles.slider_1, 'Value'));
 jointAngles(2)=round(get(handles.slider_2, 'Value'));
@@ -271,5 +282,5 @@ jointAngles(3)=round(get(handles.slider_3, 'Value'));
 jointAngles(4)=round(get(handles.slider_4, 'Value'));
 jointAngles(5)=round(get(handles.slider_5, 'Value'));
 
-jointAnglesStr=sprintf('%d %d %d %d %d',jointAngles);
+jointAnglesStr=sprintf('%d   %d   %d   %d   %d',jointAngles);
 set(handles.text_jointAngles,'String',jointAnglesStr);
