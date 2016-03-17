@@ -282,5 +282,5 @@ jointAngles(3)=round(get(handles.slider_3, 'Value'));
 jointAngles(4)=round(get(handles.slider_4, 'Value'));
 jointAngles(5)=round(get(handles.slider_5, 'Value'));
 
-jointAnglesStr=sprintf('%d   %d   %d   %d   %d',jointAngles);
+hajointAnglesStr=sprintf('%d   %d   %d   %d   %d',jointAngles);
 set(handles.text_jointAngles,'String',jointAnglesStr);

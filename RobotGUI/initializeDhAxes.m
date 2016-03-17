@@ -4,6 +4,8 @@ function initializeDhAxes
 close all
 handles.axes_arm = axes;
 handles.user.jointAngles = [0 90 0 -90 90]; % Home position.
+handles.user.jointAngles = [0 0 0 0 0]; 
+handles.user.jointAngles = [-5 135 20 -45 90];
 %  End : Setup for this stand alone version that will not go into the GUI.
 
 
@@ -46,36 +48,39 @@ end
 
 function updateArm(hObject, handles)
 
-% TODO: Make sure the handles.user.jointAngles values are set.
+% DONE: Make sure the handles.user.jointAngles values are set.
 
-% TODO: Create the five homogeneous transformation matrices.
+% DONE: Create the five homogeneous transformation matrices.
+[A1,A2,A3,A4,A5] = makeHomogeneousTransformations(handles.user.jointAngles(1),...
+    handles.user.jointAngles(2),handles.user.jointAngles(3),handles.user.jointAngles(4),...
+    handles.user.jointAngles(5));
 
-% TODO: Use the A matricies to form the T0_n matricies.
-% T0_1 = 
-% T0_2 = 
-% T0_3 = 
-% T0_4 = 
-% T0_5 = 
+% DONE: Use the A matricies to form the T0_n matricies.
+T0_1 = A1;
+T0_2 = A1*A2;
+T0_3 = A1*A2*A3;
+T0_4 = A1*A2*A3*A4;
+T0_5 = A1*A2*A3*A4*A5;
 
-% TODO: Use the T matricies to transform the patch vertices
-% link1verticesWRTground = T0_1 * handles.user.link1Vertices;
-% link2verticesWRTground = T0_2 * handles.user.link2Vertices;
-% link3verticesWRTground = T0_3 * handles.user.link3Vertices;
-% link4verticesWRTground = T0_4 * handles.user.link4Vertices;
-% link5verticesWRTground = T0_5 * handles.user.link5Vertices;
+% DONE: Use the T matricies to transform the patch vertices
+link1verticesWRTground = T0_1 * handles.user.link1Vertices;
+link2verticesWRTground = T0_2 * handles.user.link2Vertices;
+link3verticesWRTground = T0_3 * handles.user.link3Vertices;
+link4verticesWRTground = T0_4 * handles.user.link4Vertices;
+link5verticesWRTground = T0_5 * handles.user.link5Vertices;
 
-% TODO: Update the patches with the new vertices
-% set(handles.user.link1Patch,'Vertices', link1verticesWRTground(1:3,:)');
-% set(handles.user.link2Patch,'Vertices', link2verticesWRTground(1:3,:)');
-% set(handles.user.link3Patch,'Vertices', link3verticesWRTground(1:3,:)');
-% set(handles.user.link4Patch,'Vertices', link4verticesWRTground(1:3,:)');
-% set(handles.user.link5Patch,'Vertices', link5verticesWRTground(1:3,:)');
+% DONE: Update the patches with the new vertices
+set(handles.user.link1Patch,'Vertices', link1verticesWRTground(1:3,:)');
+set(handles.user.link2Patch,'Vertices', link2verticesWRTground(1:3,:)');
+set(handles.user.link3Patch,'Vertices', link3verticesWRTground(1:3,:)');
+set(handles.user.link4Patch,'Vertices', link4verticesWRTground(1:3,:)');
+set(handles.user.link5Patch,'Vertices', link5verticesWRTground(1:3,:)');
 
 
 % Optional code (if you want to display the XYZ of the gripper).
 % Update x, y, and z using the gripper (end effector) origin.
-% dhOrigin = [0 0 0 1]';
-% gripperWRTground = T0_5 * dhOrigin;
-% fprintf('(%.3f, %.3f, %.3f)\n', gripperWRTground(1), gripperWRTground(2), gripperWRTground(3));
+dhOrigin = [0 0 0 1]';
+gripperWRTground = T0_5 * dhOrigin;
+fprintf('(%.3f, %.3f, %.3f)\n', gripperWRTground(1), gripperWRTground(2), gripperWRTground(3));
 
 end
