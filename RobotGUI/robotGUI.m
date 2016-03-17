@@ -22,7 +22,7 @@ function varargout = robotGUI(varargin)
 
 % Edit the above text to modify the response to help robotGUI
 
-% Last Modified by GUIDE v2.5 11-Mar-2016 13:30:15
+% Last Modified by GUIDE v2.5 17-Mar-2016 13:13:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -74,9 +74,41 @@ set(handles.text_gripperMax,'String',get(handles.slider_gripper,'Max'))
 
 % set bacground colors
 
+
+% create arm stuff
+% Prepare the arm axes
+view(handles.axes_arm, [-50 -50 50]);
+axis(handles.axes_arm, [-13 10 -8 8 -3 14.5]);
+grid on
+xlabel('x')
+ylabel('y')
+zlabel('z')
+
+% Create vertices for all the patches
+makeLink0(handles.axes_arm, [.5 .5 .5]);  % Doesn't move. No handles needed.
+% Save handles to the patch objects.
+% Save references to the vertices of each patch, make points 4x1 not 3x1.
+handles.user.link1Patch = makeLink1(handles.axes_arm, [.9 .9 .9]);
+handles.user.link1Vertices = get(handles.user.link1Patch, 'Vertices')';
+handles.user.link1Vertices(4,:) = ones(1, size(handles.user.link1Vertices,2));
+handles.user.link2Patch = makeLink2(handles.axes_arm, [.9 .9 .9]);
+handles.user.link2Vertices = get(handles.user.link2Patch, 'Vertices')';
+handles.user.link2Vertices(4,:) = ones(1, size(handles.user.link2Vertices,2));
+handles.user.link3Patch = makeLink3(handles.axes_arm, [.9 .9 .9]);
+handles.user.link3Vertices = get(handles.user.link3Patch, 'Vertices')';
+handles.user.link3Vertices(4,:) = ones(1, size(handles.user.link3Vertices,2));
+handles.user.link4Patch = makeLink4(handles.axes_arm, [.9 .9 .9]);
+handles.user.link4Vertices = get(handles.user.link4Patch, 'Vertices')';
+handles.user.link4Vertices(4,:) = ones(1, size(handles.user.link4Vertices,2));
+handles.user.link5Patch = makeLink5(handles.axes_arm, [.95 .95 0]);
+handles.user.link5Vertices = get(handles.user.link5Patch, 'Vertices')';
+handles.user.link5Vertices(4,:) = ones(1, size(handles.user.link5Vertices,2));
+
 % set display
-handles.jointAngles=[0, 0, 0, 0, 0];
+handles.user.jointAngles=[0, 0, 0, 0, 0];
 jointSliderChange(handles);
+addImageToAxis('wildThumper.png',handles.axes_base,0)
+
 
 % Update handles structure
 guidata(hObject, handles);
@@ -277,11 +309,53 @@ end
 % update slider text
 function jointSliderChange(handles)
 
-handles.jointAngles(1)=round(get(handles.slider_1, 'Value'));
-handles.jointAngles(2)=round(get(handles.slider_2, 'Value'));
-handles.jointAngles(3)=round(get(handles.slider_3, 'Value'));
-handles.jointAngles(4)=round(get(handles.slider_4, 'Value'));
-handles.jointAngles(5)=round(get(handles.slider_5, 'Value'));
+handles.user.jointAngles(1)=round(get(handles.slider_1, 'Value'));
+handles.user.jointAngles(2)=round(get(handles.slider_2, 'Value'));
+handles.user.jointAngles(3)=round(get(handles.slider_3, 'Value'));
+handles.user.jointAngles(4)=round(get(handles.slider_4, 'Value'));
+handles.user.jointAngles(5)=round(get(handles.slider_5, 'Value'));
 
-jointAnglesStr=sprintf('%d   %d   %d   %d   %d',handles.jointAngles);
+jointAnglesStr=sprintf('%d   %d   %d   %d   %d',handles.user.jointAngles);
 set(handles.text_jointAngles,'String',jointAnglesStr);
+updateArm('unused', handles);
+
+
+
+
+function updateArm(hObject, handles)
+
+% DONE: Make sure the handles.user.jointAngles values are set.
+
+% DONE: Create the five homogeneous transformation matrices.
+[A1,A2,A3,A4,A5] = makeHomogeneousTransformations(handles.user.jointAngles(1),...
+    handles.user.jointAngles(2),handles.user.jointAngles(3),handles.user.jointAngles(4),...
+    handles.user.jointAngles(5));
+
+% DONE: Use the A matricies to form the T0_n matricies.
+T0_1 = A1;
+T0_2 = A1*A2;
+T0_3 = A1*A2*A3;
+T0_4 = A1*A2*A3*A4;
+T0_5 = A1*A2*A3*A4*A5;
+
+% DONE: Use the T matricies to transform the patch vertices
+link1verticesWRTground = T0_1 * handles.user.link1Vertices;
+link2verticesWRTground = T0_2 * handles.user.link2Vertices;
+link3verticesWRTground = T0_3 * handles.user.link3Vertices;
+link4verticesWRTground = T0_4 * handles.user.link4Vertices;
+link5verticesWRTground = T0_5 * handles.user.link5Vertices;
+
+% DONE: Update the patches with the new vertices
+set(handles.user.link1Patch,'Vertices', link1verticesWRTground(1:3,:)');
+set(handles.user.link2Patch,'Vertices', link2verticesWRTground(1:3,:)');
+set(handles.user.link3Patch,'Vertices', link3verticesWRTground(1:3,:)');
+set(handles.user.link4Patch,'Vertices', link4verticesWRTground(1:3,:)');
+set(handles.user.link5Patch,'Vertices', link5verticesWRTground(1:3,:)');
+
+
+% Optional code (if you want to display the XYZ of the gripper).
+% Update x, y, and z using the gripper (end effector) origin.
+dhOrigin = [0 0 0 1]';
+gripperWRTground = T0_5 * dhOrigin;
+position=sprintf('X = %.3f", Y = %.3f", Z = %.3f"\n', gripperWRTground(1), gripperWRTground(2), gripperWRTground(3));
+set(handles.text_position,'String',position);
