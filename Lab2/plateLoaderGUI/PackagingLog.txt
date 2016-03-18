@@ -1,0 +1,20 @@
+mcc -C -o plateLoaderGUI -W main:plateLoaderGUI -T link:exe -d C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_testing -v C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI.m -a C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\black_block.jpg -a C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\extended_bars.jpg -a C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\gripper_closed_no_plate.jpg -a C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\gripper_open_no_plate.jpg -a C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\gripper_with_plate.jpg -a C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plate_only.jpg -a C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\robot_background.jpg 
+Compiler version: 6.1 (R2015b)
+
+Dependency analysis by REQUIREMENTS.
+
+[Warning: Adding path "C:\Users\heathpr\Documents\GitHub\ME_435\Lab2" to
+Compiler path instance.] 
+[] 
+Parsing file "C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 0 temporary MEX authorization files.
+Generating file "C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_testing\readme.txt".
+Packaging...
+Adding custom icon C:\Program Files\MATLAB\R2015b\toolbox\compiler\Resources\default_icon.ico to C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_testing\plateLoaderGUI.exe.
+Attempting to embed the CTF archive into the application C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_testing\plateLoaderGUI.exe.
+Finished embedding CTF archive. Deleting the external CTF archive.
+Creating the bundle...
+Web based installer created at C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_redistribution\MyAppInstaller_web.exe.
+Packaging complete.
+Elapsed packaging time was: 35 seconds.

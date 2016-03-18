@@ -1,6 +1,6 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="2093883994" file="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\Plate_Loader_GUI.prj" location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2" name="Plate_Loader_GUI" preferred-package-location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\Plate_Loader_GUI\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
-    <param.appname>Plate_Loader_GUI</param.appname>
+  <configuration build-checksum="4273567989" file="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI.prj" location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2" name="plateLoaderGUI" preferred-package-location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+    <param.appname>plateLoaderGUI</param.appname>
     <param.icon />
     <param.icons />
     <param.version>1.0</param.version>
@@ -11,14 +11,14 @@
     <param.description />
     <param.screenshot />
     <param.guid />
-    <param.installpath.string>\Plate_Loader_GUI\</param.installpath.string>
+    <param.installpath.string>\plateLoaderGUI\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
     <param.logo />
     <param.install.notes />
     <param.target.install.notes />
-    <param.intermediate>${PROJECT_ROOT}\Plate_Loader_GUI\for_testing</param.intermediate>
-    <param.files.only>${PROJECT_ROOT}\Plate_Loader_GUI\for_redistribution_files_only</param.files.only>
-    <param.output>${PROJECT_ROOT}\Plate_Loader_GUI\for_redistribution</param.output>
+    <param.intermediate>${PROJECT_ROOT}\plateLoaderGUI\for_testing</param.intermediate>
+    <param.files.only>${PROJECT_ROOT}\plateLoaderGUI\for_redistribution_files_only</param.files.only>
+    <param.output>${PROJECT_ROOT}\plateLoaderGUI\for_redistribution</param.output>
     <param.enable.clean.build>false</param.enable.clean.build>
     <param.user.defined.mcr.options />
     <param.embed.ctf>true</param.embed.ctf>
@@ -73,6 +73,7 @@
       <file>${PROJECT_ROOT}\plateLoaderGUI.m</file>
     </fileset.main>
     <fileset.resources>
+      <file>${PROJECT_ROOT}\black_block.jpg</file>
       <file>${PROJECT_ROOT}\extended_bars.jpg</file>
       <file>${PROJECT_ROOT}\gripper_closed_no_plate.jpg</file>
       <file>${PROJECT_ROOT}\gripper_open_no_plate.jpg</file>
@@ -89,9 +90,9 @@
       <file>${PROJECT_ROOT}\updateImages.m</file>
     </fileset.depfun>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\Plate_Loader_GUI\for_testing" name="readme.txt" optional="true">C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\Plate_Loader_GUI\for_testing\readme.txt</file>
-      <file location="${PROJECT_ROOT}\Plate_Loader_GUI\for_testing" name="Plate_Loader_GUI.exe" optional="false">C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\Plate_Loader_GUI\for_testing\Plate_Loader_GUI.exe</file>
-      <file location="${PROJECT_ROOT}\Plate_Loader_GUI\for_testing" name="splash.png" optional="false">C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\Plate_Loader_GUI\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\plateLoaderGUI\for_testing" name="plateLoaderGUI.exe" optional="false">C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_testing\plateLoaderGUI.exe</file>
+      <file location="${PROJECT_ROOT}\plateLoaderGUI\for_testing" name="splash.png" optional="false">C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\plateLoaderGUI\for_testing" name="readme.txt" optional="true">C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_testing\readme.txt</file>
     </build-deliverables>
     <workflow />
     <matlab>

@@ -33,8 +33,8 @@ NOTE: You will need administrator rights to run MCRInstaller.
 
 Files to package for Standalone 
 ================================
--Plate_Loader_GUI.ctf (component technology file)
--Plate_Loader_GUI.exe
+-plateLoaderGUI.ctf (component technology file)
+-plateLoaderGUI.exe
 -MCRInstaller.exe 
    -if end users are unable to download the MATLAB Runtime using the above  
     link, include it when building your component by clicking 

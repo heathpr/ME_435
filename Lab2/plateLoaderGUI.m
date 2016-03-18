@@ -419,8 +419,9 @@ function figure1_KeyPressFcn(hObject, eventdata, handles)
 %	Character: character interpretation of the key(s) that was pressed
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 [x, z, gripper, plate]=handles.robot.getProperties;
-value=double(get(hObject,'CurrentCharacter'))
+value=double(get(hObject,'CurrentCharacter'));
 switch value
     case 13 % enter key
         status=handles.robot.getStatus;
@@ -504,5 +505,6 @@ switch value
                 guidata(hObject, handles);
         end
 end
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 
 
