@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration build-checksum="4273567989" file="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI.prj" location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2" name="plateLoaderGUI" preferred-package-location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration build-checksum="3667022495" file="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI.prj" location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2" name="plateLoaderGUI" preferred-package-location="C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_redistribution" preferred-package-type="package.type.exe" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>plateLoaderGUI</param.appname>
     <param.icon />
     <param.icons />

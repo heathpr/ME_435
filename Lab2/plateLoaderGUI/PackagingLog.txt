@@ -17,4 +17,4 @@ Finished embedding CTF archive. Deleting the external CTF archive.
 Creating the bundle...
 Web based installer created at C:\Users\heathpr\Documents\GitHub\ME_435\Lab2\plateLoaderGUI\for_redistribution\MyAppInstaller_web.exe.
 Packaging complete.
-Elapsed packaging time was: 35 seconds.
+Elapsed packaging time was: 37 seconds.
