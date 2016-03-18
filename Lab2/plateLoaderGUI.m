@@ -22,7 +22,7 @@ function varargout = plateLoaderGUI(varargin)
 
 % Edit the above text to modify the response to help plateLoaderGUI
 
-% Last Modified by GUIDE v2.5 16-Mar-2016 14:50:37
+% Last Modified by GUIDE v2.5 17-Mar-2016 13:37:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -86,9 +86,11 @@ function pushbutton_reset_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_reset (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.reset;
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_resetDelays.
@@ -96,6 +98,7 @@ function pushbutton_resetDelays_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_resetDelays (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.resetDefaultTimes;
 set(handles.text_response,'String',status);
 handles.timeDelays = [0 60 20 30 0;
@@ -105,6 +108,7 @@ handles.timeDelays = [0 60 20 30 0;
     0 30 20 60 0];
 set(handles.uitable1,'Data',handles.timeDelays(:,2:4));
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_setDelay.
@@ -112,9 +116,11 @@ function pushbutton_setDelay_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_setDelay (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status = handles.robot.setTimeValues(handles.timeDelays);
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on selection change in popupmenu_from.
@@ -168,11 +174,13 @@ function pushbutton_movePlate_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_movePlate (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 from=(get(handles.popupmenu_from,'Value'));
 to=(get(handles.popupmenu_to,'Value'));
 status=handles.robot.movePlate(from,to);
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x1.
@@ -180,9 +188,11 @@ function pushbutton_x1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_x1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.x(1);
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x2.
@@ -190,9 +200,11 @@ function pushbutton_x2_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_x2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.x(2);
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton10_x5.
@@ -200,9 +212,11 @@ function pushbutton10_x5_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton10_x5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.x(5);
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_x4.
@@ -210,9 +224,11 @@ function pushbutton_x4_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_x4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.x(4);
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton12_x3.
@@ -220,9 +236,11 @@ function pushbutton12_x3_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton12_x3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.x(3);
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_getStatus.
@@ -230,9 +248,11 @@ function pushbutton_getStatus_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_getStatus (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.getStatus;
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_disconnect.
@@ -240,10 +260,12 @@ function pushbutton_disconnect_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_disconnect (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 if get(handles.checkbox_simulator,'Value')==0
     status=handles.robot.shutdown;
     set(handles.text_response,'String',status);
 end
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_connect.
@@ -251,13 +273,14 @@ function pushbutton_connect_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_connect (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 if get(handles.checkbox_simulator,'Value')==0
     handles.robot=PlateLoader(str2double(get(handles.edit_comPort,'String')));
     status=handles.robot.getStatus;
     set(handles.text_response,'String',status);
     updateImages(handles);
 end
-
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 
@@ -308,9 +331,11 @@ function pushbutton_retract_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_retract (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.retract;
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_extend.
@@ -318,9 +343,11 @@ function pushbutton_extend_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_extend (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.extend;
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_open.
@@ -328,9 +355,11 @@ function pushbutton_open_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_open (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.open;
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 % --- Executes on button press in pushbutton_close.
@@ -338,9 +367,11 @@ function pushbutton_close_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_close (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.close;
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
 
 
@@ -368,7 +399,110 @@ function pushbutton_leap_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_leap (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'off');
 status=handles.robot.leap45;
 set(handles.text_response,'String',status);
 updateImages(handles);
+set( findall(handles.uipanel_plateLoadMove, '-property', 'Enable'), 'Enable', 'on');
 guidata(hObject, handles);
+
+
+
+
+
+
+% --- Executes on key press with focus on figure1 and none of its controls.
+function figure1_KeyPressFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  structure with the following fields (see MATLAB.UI.FIGURE)
+%	Key: name of the key that was pressed, in lower case
+%	Character: character interpretation of the key(s) that was pressed
+%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
+% handles    structure with handles and user data (see GUIDATA)
+[x, z, gripper, plate]=handles.robot.getProperties;
+value=double(get(hObject,'CurrentCharacter'))
+switch value
+    case 13 % enter key
+        status=handles.robot.getStatus;
+        set(handles.text_response,'String',status);
+        updateImages(handles);
+        guidata(hObject, handles);
+    case 30 % up arrow
+        status=handles.robot.retract;
+        set(handles.text_response,'String',status);
+        updateImages(handles);
+        guidata(hObject, handles);
+    case 31 % down arrow
+        status=handles.robot.extend;
+        set(handles.text_response,'String',status);
+        updateImages(handles);
+        guidata(hObject, handles);
+        
+    case 28 % left arrow
+        switch x
+            case 1
+                %            Do Nothing
+            case 2
+                status=handles.robot.x(1);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+            case 3
+                status=handles.robot.x(2);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+            case 4
+                status=handles.robot.x(3);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+            case 5
+                status=handles.robot.x(4);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+        end
+        
+    case 29 % right arrow
+        switch x
+            case 5
+                %            Do Nothing
+            case 4
+                status=handles.robot.x(5);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+            case 1
+                status=handles.robot.x(2);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+            case 2
+                status=handles.robot.x(3);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+            case 3
+                status=handles.robot.x(4);
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+        end
+        
+    case 32 % space bar
+        switch gripper
+            case 0 % open
+                status=handles.robot.close;
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+            case 1 % close
+                status=handles.robot.open;
+                set(handles.text_response,'String',status);
+                updateImages(handles);
+                guidata(hObject, handles);
+        end
+end
+
+
