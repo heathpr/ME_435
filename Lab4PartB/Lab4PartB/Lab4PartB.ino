@@ -1,9 +1,12 @@
 /*
- Name:		Lab3PartH.ino
- Created:	3/25/2016 1:56:20 PM
+ Name:		Lab4PartB.ino
+ Created:	4/5/2016 12:19:11 PM
  Author:	heathpr
 */
 
+// Include libraries
+#include <ArmServos.h>
+#include <servo.h>
 #include <LiquidCrystal.h>
 
 /***  Pin I/O   ***/
@@ -19,34 +22,53 @@
 #define CONTRAST_ANALOG 8
 #define HORZ_ANALOG 0
 #define VERT_ANALOG 1
+
+// Dead zone for gripper
 #define HIGH_THRESHOLD 900
 #define LOW_THRESHOLD 100
+
+// Interupt flags
 #define FLAG_INTERRUPT_0 0x01
 #define FLAG_INTERRUPT_1 0x02
 #define FLAG_INTERRUPT_2 0x04
 
-
+// limits for each servo angle
+#define J1_HIGH 90
+#define J1_LOW -90
+#define J2_HIGH 180
+#define J2_LOW 0
+#define J3_HIGH 90
+#define J3_LOW -90
+#define J4_HIGH 0
+#define J4_LOW -180
+#define J5_HIGH 180
+#define J5_LOW 0
+#define GRIPPER_HIGH 71
+#define GRIPPER_LOW 0
 
 // create LCD object
 LiquidCrystal lcd = LiquidCrystal(14, 15, 16, 17, 18, 19, 20);
+ArmServos robotArm;
+
 
 // create protoypes of functions
-int updateValue(int);
+int updateValue(int,int,int);
 void updateDisplay(void);
 void int0_isr(void);
 void int1_isr(void);
 void updateLED(void);
+void updateServoPositions(void);
 
 
 // create global variables
 int horz;
 int vert;
-int servo1 = 90;
-int servo2 = 90;
-int servo3 = 90;
-int servo4 = 90;
-int servo5 = 90;
-int servo6 = 90;
+int joint1 = (J1_HIGH+J1_LOW)/2;
+int joint2 = (J2_HIGH + J2_LOW) / 2;
+int joint3 = (J3_HIGH + J3_LOW) / 2;
+int joint4 = (J4_HIGH + J4_LOW) / 2;
+int joint5 = (J5_HIGH + J5_LOW) / 2;
+int gripper = (GRIPPER_HIGH + GRIPPER_LOW) / 2;
 int activeJoint = 1;
 volatile int mainEventFlags = 0;
 
@@ -65,6 +87,9 @@ void setup() {
 	pinMode(RIGHT_BUTTON, INPUT_PULLUP);
 	pinMode(LEFT_BUTTON, INPUT_PULLUP);
 	pinMode(SELECT_BUTTON, INPUT_PULLUP);
+
+	// Setup Servo pins
+	robotArm.attach();
 
 	// begin LCD
 	lcd.begin(16, 2);
@@ -105,29 +130,31 @@ void loop() {
 				activeJoint = 6;
 			}
 			updateLED();
-		//	Serial.println(activeJoint);
+			//	Serial.println(activeJoint);
 		}
 	}
+
+	// reset joints
 	if (!digitalRead(SELECT_BUTTON)) {
 		switch (activeJoint)
 		{
 		case 1:
-			servo1 = 90;
+			joint1 = (J1_HIGH + J1_LOW) / 2;
 			break;
 		case 2:
-			servo2 = 90;
+			joint2 = (J2_HIGH + J2_LOW) / 2;
 			break;
 		case 3:
-			servo3 = 90;
+			joint3 = (J3_HIGH + J3_LOW) / 2;
 			break;
 		case 4:
-			servo4 = 90;
+			joint4 = (J4_HIGH + J4_LOW) / 2;
 			break;
 		case 5:
-			servo5 = 90;
+			joint5 = (J5_HIGH + J5_LOW) / 2;
 			break;
 		case 6:
-			servo6 = 90;
+			gripper = (GRIPPER_HIGH + GRIPPER_LOW) / 2;
 			break;
 		}
 		updateDisplay();
@@ -135,61 +162,62 @@ void loop() {
 	switch (activeJoint)
 	{
 	case 1:
-		servo1 = updateValue(servo1);
+		joint1 = updateValue(joint1,J1_HIGH,J1_LOW);
 		break;
 	case 2:
-		servo2 = updateValue(servo2);
+		joint2 = updateValue(joint2,J2_HIGH,J2_LOW);
 		break;
 	case 3:
-		servo3 = updateValue(servo3);
+		joint3 = updateValue(joint3,J3_HIGH,J3_LOW);
 		break;
 	case 4:
-		servo4 = updateValue(servo4);
+		joint4 = updateValue(joint4,J4_HIGH,J4_LOW);
 		break;
 	case 5:
-		servo5 = updateValue(servo5);
+		joint5 = updateValue(joint5,J5_HIGH,J5_LOW);
 		break;
 	case 6:
-		servo6 = updateValue(servo6);
+		gripper = updateValue(gripper,GRIPPER_HIGH,GRIPPER_LOW);
 		break;
 	}
 	updateDisplay();
+	updateServoPositions();
 
 }
 
-int updateValue(int angle) {
+int updateValue(int angle,int high, int low) {
 	vert = analogRead(VERT_ANALOG);
 	horz = analogRead(HORZ_ANALOG);
 	if (vert >= HIGH_THRESHOLD) {
-		if (angle < 180) {
+		if (angle < high) {
 			angle = angle + 4;
 		}
 		else {
-			angle = 180;
+			angle = high;
 		}
 	}
 	else if (vert <= LOW_THRESHOLD) {
-		if (angle > 0) {
+		if (angle > low) {
 			angle = angle - 4;
 		}
 		else {
-			angle = 0;
+			angle = low;
 		}
 	}
 	else if (horz >= HIGH_THRESHOLD) {
-		if (angle < 180) {
+		if (angle < high) {
 			angle = angle + 1;
 		}
 		else {
-			angle = 180;
+			angle = high;
 		}
 	}
 	else if (horz <= LOW_THRESHOLD) {
-		if (angle > 0) {
+		if (angle > low) {
 			angle = angle - 1;
 		}
 		else {
-			angle = 0;
+			angle =low;
 		}
 	}
 	delay(100);
@@ -198,27 +226,27 @@ int updateValue(int angle) {
 
 void updateDisplay() {
 	lcd.setCursor(1, 0);
-	lcd.print(servo1);
+	lcd.print(joint1);
 	lcd.print(" ");
 
 	lcd.setCursor(6, 0);
-	lcd.print(servo2);
+	lcd.print(joint2);
 	lcd.print(" ");
 
 	lcd.setCursor(11, 0);
-	lcd.print(servo3);
+	lcd.print(joint3);
 	lcd.print(" ");
 
 	lcd.setCursor(1, 1);
-	lcd.print(servo4);
+	lcd.print(joint4);
 	lcd.print(" ");
 
 	lcd.setCursor(6, 1);
-	lcd.print(servo5);
+	lcd.print(joint5);
 	lcd.print(" ");
 
 	lcd.setCursor(11, 1);
-	lcd.print(servo6);
+	lcd.print(gripper);
 	lcd.print(" ");
 
 }
@@ -286,4 +314,9 @@ void updateLED(void) {
 		// do nothing
 		break;
 	}
+}
+
+void updateServoPositions(void) {
+	robotArm.setPosition(joint1, joint2, joint3, joint4, joint5);
+	robotArm.setGripperDistance(gripper);
 }

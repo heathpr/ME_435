@@ -22,18 +22,18 @@ function varargout = robotGUI(varargin)
 
 % Edit the above text to modify the response to help robotGUI
 
-% Last Modified by GUIDE v2.5 17-Mar-2016 13:13:41
+% Last Modified by GUIDE v2.5 05-Apr-2016 20:28:54
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @robotGUI_OpeningFcn, ...
-                   'gui_OutputFcn',  @robotGUI_OutputFcn, ...
-                   'gui_LayoutFcn',  [], ...
-                   'gui_Callback',   []);
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @robotGUI_OpeningFcn, ...
+    'gui_OutputFcn',  @robotGUI_OutputFcn, ...
+    'gui_LayoutFcn',  [], ...
+    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
-   gui_State.gui_Callback = str2func(varargin{1});
+    gui_State.gui_Callback = str2func(varargin{1});
 end
 
 if nargout
@@ -52,6 +52,7 @@ function robotGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   unrecognized PropertyName/PropertyValue pairs from the
 %            command line (see VARARGIN)
+clc
 
 % Choose default command line output for robotGUI
 handles.output = hObject;
@@ -72,8 +73,8 @@ set(handles.text_slide5Min,'String',get(handles.slider_5,'Min'))
 set(handles.text_gripperMin,'String',get(handles.slider_gripper,'Min'))
 set(handles.text_gripperMax,'String',get(handles.slider_gripper,'Max'))
 
-% set bacground colors
-
+% boolean for connection
+handles.user.isConected=0;
 
 % create arm stuff
 % Prepare the arm axes
@@ -108,6 +109,8 @@ handles.user.link5Vertices(4,:) = ones(1, size(handles.user.link5Vertices,2));
 handles.user.jointAngles=[0, 0, 0, 0, 0];
 jointSliderChange(handles);
 addImageToAxis('wildThumper.png',handles.axes_base,0)
+
+
 
 
 % Update handles structure
@@ -157,12 +160,37 @@ function pushbutton_open_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+%close open ports
+open_ports = instrfind('Type','serial','Status','open');
+if ~isempty(open_ports)
+    fclose(open_ports);
+end
+
+comPort=sprintf('COM%c',get(handles.edit_COMPort,'String'));
+handles.robot = serial(comPort, 'Baudrate', 9600);
+fopen(handles.robot);
+
+handles.user.isConected = 1;
+
+guidata(hObject, handles);
+
+
+
 
 % --- Executes on button press in pushbutton_close.
 function pushbutton_close_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_close (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+%close open ports
+open_ports = instrfind('Type','serial','Status','open');
+if ~isempty(open_ports)
+    fclose(open_ports);
+end
+handles.user.isConected=0;
+
+guidata(hObject, handles);
 
 
 % --- Executes on slider movement.
@@ -173,6 +201,12 @@ function slider_gripper_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+if(handles.user.isConected==1)
+    grip= sprintf('GRIPPER %d', get(handles.slider_gripper,'Value'));
+fprintf(handles.robot, grip);
+end
+guidata(hObject, handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -318,6 +352,10 @@ handles.user.jointAngles(5)=round(get(handles.slider_5, 'Value'));
 jointAnglesStr=sprintf('%d   %d   %d   %d   %d',handles.user.jointAngles);
 set(handles.text_jointAngles,'String',jointAnglesStr);
 updateArm('unused', handles);
+if(handles.user.isConected==1)
+    updateRobotArm('unused',handles);
+end
+
 
 
 
@@ -359,3 +397,11 @@ dhOrigin = [0 0 0 1]';
 gripperWRTground = T0_5 * dhOrigin;
 position=sprintf('X = %.3f", Y = %.3f", Z = %.3f"\n', gripperWRTground(1), gripperWRTground(2), gripperWRTground(3));
 set(handles.text_position,'String',position);
+
+
+
+function updateRobotArm(hObject,handles)
+% send messages to robot to update all positions of the arm
+pos = sprintf('POSITION %d %d %d %d %d',handles.user.jointAngles(1),...
+    handles.user.jointAngles(2),handles.user.jointAngles(3),handles.user.jointAngles(4),handles.user.jointAngles(5));
+fprintf(handles.robot, pos);

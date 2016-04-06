@@ -1,9 +1,11 @@
 /*
- Name:		Lab3PartH.ino
- Created:	3/25/2016 1:56:20 PM
+ Name:		Lab4PartA.ino
+ Created:	3/31/2016 1:53:44 PM
  Author:	heathpr
 */
 
+
+#include <servo.h>
 #include <LiquidCrystal.h>
 
 /***  Pin I/O   ***/
@@ -29,6 +31,13 @@
 
 // create LCD object
 LiquidCrystal lcd = LiquidCrystal(14, 15, 16, 17, 18, 19, 20);
+Servo servo_1;
+Servo servo_2;
+Servo servo_3;
+Servo servo_4;
+Servo servo_5;
+Servo servo_gripper;
+
 
 // create protoypes of functions
 int updateValue(int);
@@ -36,6 +45,7 @@ void updateDisplay(void);
 void int0_isr(void);
 void int1_isr(void);
 void updateLED(void);
+void updateServoPositions(void);
 
 
 // create global variables
@@ -65,6 +75,14 @@ void setup() {
 	pinMode(RIGHT_BUTTON, INPUT_PULLUP);
 	pinMode(LEFT_BUTTON, INPUT_PULLUP);
 	pinMode(SELECT_BUTTON, INPUT_PULLUP);
+
+	// Setup Servo pins
+	servo_1.attach(12);
+	servo_2.attach(11);
+	servo_3.attach(10);
+	servo_4.attach(9);
+	servo_5.attach(8);
+	servo_gripper.attach(6);
 
 	// begin LCD
 	lcd.begin(16, 2);
@@ -105,7 +123,7 @@ void loop() {
 				activeJoint = 6;
 			}
 			updateLED();
-		//	Serial.println(activeJoint);
+			//	Serial.println(activeJoint);
 		}
 	}
 	if (!digitalRead(SELECT_BUTTON)) {
@@ -154,6 +172,7 @@ void loop() {
 		break;
 	}
 	updateDisplay();
+	updateServoPositions();
 
 }
 
@@ -286,4 +305,13 @@ void updateLED(void) {
 		// do nothing
 		break;
 	}
+}
+
+void updateServoPositions(void) {
+	servo_1.write(servo1);
+	servo_2.write(servo2);
+	servo_3.write(servo3);
+	servo_4.write(servo4);
+	servo_5.write(servo5);
+	servo_gripper.write(servo6);
 }
