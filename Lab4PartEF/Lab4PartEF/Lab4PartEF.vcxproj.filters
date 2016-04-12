@@ -17,5 +17,9 @@
   <ItemGroup>
     <None Include="Lab4PartEF.ino" />
   </ItemGroup>
- 
+  <ItemGroup>
+    <ClInclude Include="__vm\.Lab4PartEF.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
