@@ -28,9 +28,9 @@ byte rxBuf[255];
 // Note, when sending commands to Android I don't add the '\n'.
 // Turned out to be easier to just assume the whole message arrives together.
 // Seems to work fine.  Just separate into different write() commands.
-char rightButtonScript[] = "rball3";
+char rightButtonScript[] = "rball1";
 char leftButtonScript[] = "rball2";
-char selectButtonScript[] = "rball1";
+char selectButtonScript[] = "rball3";
 
 /***  Pin I/O   ***/
 #define PIN_RIGHT_BUTTON 2
