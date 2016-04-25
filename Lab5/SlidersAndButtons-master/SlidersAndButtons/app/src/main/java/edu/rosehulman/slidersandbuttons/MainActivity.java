@@ -73,134 +73,56 @@ public class MainActivity extends AccessoryActivity implements OnSeekBarChangeLi
 
     public void handleScript1Click(View view) {
         Toast.makeText(this, "Knock off ball 1", Toast.LENGTH_SHORT).show();
-        updateSlidersForPosition(0, 90, 0, -90, 90);
-        String command = getString(R.string.home);
-        sendCommand(command);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.prep1);
-                sendCommand(com);
-            }
-        },1500);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.knock1);
-                sendCommand(com);
-            }
-        },3500);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.prep1);
-                sendCommand(com);
-            }
-        },4000);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.home);
-                sendCommand(com);
-            }
-        },4500);
+        script1();
     }
 
     public void handleScript2Click(View view) {
         Toast.makeText(this, "Knock off ball 2", Toast.LENGTH_SHORT).show();
-        updateSlidersForPosition(0, 90, 0, -90, 90);
-        String command = getString(R.string.home);
-        sendCommand(command);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.prep2);
-                sendCommand(com);
-            }
-        },1500);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.knock2);
-                sendCommand(com);
-            }
-        },3500);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.clear2);
-                sendCommand(com);
-            }
-        },4000);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.home);
-                sendCommand(com);
-            }
-        },4500);
+        script2();
     }
 
     public void handleScript3Click(View view) {
         Toast.makeText(this, "Knock off ball 3", Toast.LENGTH_SHORT).show();
-        updateSlidersForPosition(0, 90, 0, -90, 90);
-        String command = getString(R.string.home);
-        sendCommand(command);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.prep3);
-                sendCommand(com);
-            }
-        },1000);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.knock3);
-                sendCommand(com);
-            }
-        },2800);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.prep3);
-                sendCommand(com);
-            }
-        },3300);
-        mCommandHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String com = getString(R.string.home);
-                sendCommand(com);
-            }
-        },3800);
+        script3();
     }
 
     public void handleStopClick(View view) {
-        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+        String command = getString(R.string.wheel_speed_command,"BRAKE",255,"BRAKE",255);
+        sendCommand(command);
     }
 
     public void handleForwardClick(View view) {
-        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+        String command = getString(R.string.wheel_speed_command,"FORWARD",100,"FORWARD",100);
+        sendCommand(command);
     }
 
     public void handleBackClick(View view) {
-        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+        String command = getString(R.string.wheel_speed_command,"REVERSE",100,"REVERSE",100);
+        sendCommand(command);
     }
 
     public void handleLeftClick(View view) {
-        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+        String command = getString(R.string.wheel_speed_command,"FORWARD",200,"FORWARD",50);
+        sendCommand(command);
     }
 
     public void handleRightClick(View view) {
-        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+        String command = getString(R.string.wheel_speed_command,"FORWARD",50,"FORWARD",200);
+        sendCommand(command);
     }
 
     public void handleBatteryClick(View view) {
-        Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "TODO: Implement button", Toast.LENGTH_SHORT).show();
         // Need to send BATTERY VOLTAGE REQUEST
         // Toast all replies.  Arduino will reply with a BATTERY VOLTAGE REPLY.
         // Receive messages will arrive via onCommandReceived
+        String command = getString(R.string.battery_voltage_request);
+        sendCommand(command);
     }
 
     // ------------------------ OnSeekBarChangeListener ------------------------
@@ -256,4 +178,120 @@ public class MainActivity extends AccessoryActivity implements OnSeekBarChangeLi
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {}
 
+    @Override
+    protected void onCommandReceived(String receivedCommand) {
+        super.onCommandReceived(receivedCommand);
+
+        if(receivedCommand.equalsIgnoreCase("rball3")){
+            script3();
+        }else if (receivedCommand.equalsIgnoreCase("rball2")){
+            script2();
+        }else if (receivedCommand.equalsIgnoreCase("rball1")){
+            script1();
+        }else{
+            Toast.makeText(this,""+receivedCommand,Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void script3(){
+        updateSlidersForPosition(0, 90, 0, -90, 90);
+        String command = getString(R.string.home);
+        sendCommand(command);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.prep3);
+                sendCommand(com);
+            }
+        },1000);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.knock3);
+                sendCommand(com);
+            }
+        },2800);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.prep3);
+                sendCommand(com);
+            }
+        },3300);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.home);
+                sendCommand(com);
+            }
+        },3800);
+    }
+
+    private void script2(){
+        updateSlidersForPosition(0, 90, 0, -90, 90);
+        String command = getString(R.string.home);
+        sendCommand(command);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.prep2);
+                sendCommand(com);
+            }
+        },1500);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.knock2);
+                sendCommand(com);
+            }
+        },3500);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.clear2);
+                sendCommand(com);
+            }
+        },4000);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.home);
+                sendCommand(com);
+            }
+        },4500);
+    }
+
+    private void script1(){
+        updateSlidersForPosition(0, 90, 0, -90, 90);
+        String command = getString(R.string.home);
+        sendCommand(command);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.prep1);
+                sendCommand(com);
+            }
+        },1500);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.knock1);
+                sendCommand(com);
+            }
+        },3500);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.prep1);
+                sendCommand(com);
+            }
+        },4000);
+        mCommandHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String com = getString(R.string.home);
+                sendCommand(com);
+            }
+        },4500);
+    }
 }

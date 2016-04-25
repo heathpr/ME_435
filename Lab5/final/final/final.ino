@@ -8,7 +8,7 @@
 #define TEAM_NUMBER 12  // Replace this with your team number.
 
 char manufacturer[] = "Rose-Hulman";
-char model[] = "Arm Scripts";  // Change to your app name.
+char model[] = "My Sliders and Buttons";  // Change to your app name.
 char versionStr[] = "1.0";
 
 // Only Manufacturer, Model, and Version matter to Android
