@@ -165,10 +165,22 @@ void wheelCurrentRequestFromAndroid(void) {
 
 void customStringCallbackFromAndroid(String customString) {
 	lcd.clear();
-	if (customString.equalsIgnoreCase("run ball test")) {
+	if (customString.equalsIgnoreCase("run ball test indoors")) {
 		lcd.print("Known CUSTOM");
 		// perform that command
-		runBallTest();
+		runBallTestIndoors();
+	}
+	else if (customString.equalsIgnoreCase("run ball test outdoors cloudy"))
+	{
+		lcd.print("Known CUSTOM");
+		// perform that command
+		runBallTestOutdoorsCloudy();
+	}
+	else if (customString.equalsIgnoreCase("run ball test outdoors sunny"))
+	{
+		lcd.print("Known CUSTOM");
+		// perform that command
+		runBallTestOutdoorsSunny();
 	}
 	else {
 		lcd.print("Unknown CUSTOM");
@@ -390,19 +402,131 @@ bool isValid(int ball1, int ball2, int ball3) {
 	return true;
 }
 
+void sendBallColors(int ball1, int ball2, int ball3) {
+	char *message;
+	switch (ball1)
+	{
+	case(BALL_BLACK):
+		message = "1K";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_WHITE):
+		message = "1W";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_BLUE):
+		message = "1B";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_YELLOW):
+		message = "1Y";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_RED):
+		message = "1R";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_GREEN):
+		message = "1G";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_NONE):
+		message = "1N";
+		acc.write(message, sizeof(message));
+		break;
+	default:
+		message = "1E";
+		acc.write(message, sizeof(message));
+		break;
+	}
+	delay(100);
+	switch (ball2)
+	{
+	case(BALL_BLACK):
+		message = "2K";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_WHITE):
+		message = "2W";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_BLUE):
+		message = "2B";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_YELLOW):
+		message = "2Y";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_RED):
+		message = "2R";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_GREEN):
+		message = "2G";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_NONE):
+		message = "2N";
+		acc.write(message, sizeof(message));
+		break;
+	default:
+		message = "2E";
+		acc.write(message, sizeof(message));
+		break;
+	}
+	delay(100);
+	switch (ball3)
+	{
+	case(BALL_BLACK):
+		message = "3K";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_WHITE):
+		message = "3W";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_BLUE):
+		message = "3B";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_YELLOW):
+		message = "3Y";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_RED):
+		message = "3R";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_GREEN):
+		message = "3G";
+		acc.write(message, sizeof(message));
+		break;
+	case(BALL_NONE):
+		message = "3N";
+		acc.write(message, sizeof(message));
+		break;
+	default:
+		message = "3E";
+		acc.write(message, sizeof(message));
+		break;
+	}
+	
+}
 
-void runBallTest() {
+
+void runBallTestIndoors() {
 	bool validCombination = false;
 	int count = 1;
-	while (!validCombination || count < TIME_OUT) {
+	while (!validCombination && count < TIME_OUT) {
 		Serial.print("---------------------------------");
-		ballColor_1 = stand.determineBallColor(LOCATION_1);
+		ballColor_1 = stand.determineBallColorIndoors(LOCATION_1);
 		Serial.print("  Location 1 ball   = ");
 		printBallColor(ballColor_1);
-		ballColor_2 = stand.determineBallColor(LOCATION_2);
+		ballColor_2 = stand.determineBallColorIndoors(LOCATION_2);
 		Serial.print("  Location 2 ball   = ");
 		printBallColor(ballColor_2);
-		ballColor_3 = stand.determineBallColor(LOCATION_3);
+		ballColor_3 = stand.determineBallColorIndoors(LOCATION_3);
 		Serial.print("  Location 3 ball   = ");
 		printBallColor(ballColor_3);
 		stand.setLedState(LED_GREEN, LOCATION_3, LED_FRONT);
@@ -410,6 +534,53 @@ void runBallTest() {
 		count++;
 		validCombination = isValid(ballColor_1, ballColor_2, ballColor_3);
 	}
+	sendBallColors(ballColor_1, ballColor_2, ballColor_3);
+
+}
+
+void runBallTestOutdoorsCloudy() {
+	bool validCombination = false;
+	int count = 1;
+	while (!validCombination && count < TIME_OUT) {
+		Serial.print("---------------------------------");
+		ballColor_1 = stand.determineBallColorOutdoorsCloudy(LOCATION_1);
+		Serial.print("  Location 1 ball   = ");
+		printBallColor(ballColor_1);
+		ballColor_2 = stand.determineBallColorOutdoorsCloudy(LOCATION_2);
+		Serial.print("  Location 2 ball   = ");
+		printBallColor(ballColor_2);
+		ballColor_3 = stand.determineBallColorOutdoorsCloudy(LOCATION_3);
+		Serial.print("  Location 3 ball   = ");
+		printBallColor(ballColor_3);
+		stand.setLedState(LED_GREEN, LOCATION_3, LED_FRONT);
+		Serial.print("---------------------------------\n\n");
+		count++;
+		validCombination = isValid(ballColor_1, ballColor_2, ballColor_3);
+	}
+	sendBallColors(ballColor_1, ballColor_2, ballColor_3);
+
+}
+
+void runBallTestOutdoorsSunny() {
+	bool validCombination = false;
+	int count = 1;
+	while (!validCombination && count < TIME_OUT) {
+		Serial.print("---------------------------------");
+		ballColor_1 = stand.determineBallColorOutdoorsSunny(LOCATION_1);
+		Serial.print("  Location 1 ball   = ");
+		printBallColor(ballColor_1);
+		ballColor_2 = stand.determineBallColorOutdoorsSunny(LOCATION_2);
+		Serial.print("  Location 2 ball   = ");
+		printBallColor(ballColor_2);
+		ballColor_3 = stand.determineBallColorOutdoorsSunny(LOCATION_3);
+		Serial.print("  Location 3 ball   = ");
+		printBallColor(ballColor_3);
+		stand.setLedState(LED_GREEN, LOCATION_3, LED_FRONT);
+		Serial.print("---------------------------------\n\n");
+		count++;
+		validCombination = isValid(ballColor_1, ballColor_2, ballColor_3);
+	}
+	sendBallColors(ballColor_1, ballColor_2, ballColor_3);
 
 }
 
