@@ -61,13 +61,13 @@ public class MainActivity extends AccessoryActivity implements OnSeekBarChangeLi
 
     public void handlePosition1Click(View view) {
         updateSlidersForPosition(0, 100, -80, -140, 99);
-        String command = getString(R.string.position_command, 0 ,100, -80, -140, 99);
+        String command = getString(R.string.prep3);
         sendCommand(command);
     }
 
     public void handlePosition2Click(View view) {
         updateSlidersForPosition(30, 85, -75, -130, 99);
-        String command = getString(R.string.position_command, 30 ,85, -75, -130, 99);
+        String command = getString(R.string.knock3);
         sendCommand(command);
     }
 

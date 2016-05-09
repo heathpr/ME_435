@@ -62,5 +62,5 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portOutputRegister(P)
 #define portInputRegister(P)
 #define portModeRegister(P)
-#include <..\Lab4PartEF\Lab4PartEF.ino>
+#include <Lab4PartEF.ino>
 #endif
